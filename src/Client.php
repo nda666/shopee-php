@@ -119,16 +119,18 @@ class Client
         $this->nodes['auth'] = new Nodes\Auth\Auth($this);
 
         $this->nodes['product'] = new Nodes\Product\Product($this);
-        $this->nodes['logistics'] = new Nodes\Logistics\Logistics($this);
-        $this->nodes['order'] = new Nodes\Order\Order($this);
-        $this->nodes['returns'] = new Nodes\Returns\Returns($this);
-        $this->nodes['shop'] = new Nodes\Shop\Shop($this);
-        $this->nodes['shopCategory'] = new Nodes\ShopCategory\ShopCategory($this);
-        $this->nodes['custom'] = new Nodes\Custom\Custom($this);
-        $this->nodes['discount'] = new Nodes\Discount\Discount($this);
-        $this->nodes['image'] = new Nodes\Image\Image($this);
-        $this->nodes['push'] = new Nodes\Push\Push($this);
-        $this->nodes['payment'] = new Nodes\Payment\Payment($this);
+
+        # TODO create all nodes
+        // $this->nodes['logistics'] = new Nodes\Logistics\Logistics($this);
+        // $this->nodes['order'] = new Nodes\Order\Order($this);
+        // $this->nodes['returns'] = new Nodes\Returns\Returns($this);
+        // $this->nodes['shop'] = new Nodes\Shop\Shop($this);
+        // $this->nodes['shopCategory'] = new Nodes\ShopCategory\ShopCategory($this);
+        // $this->nodes['custom'] = new Nodes\Custom\Custom($this);
+        // $this->nodes['discount'] = new Nodes\Discount\Discount($this);
+        // $this->nodes['image'] = new Nodes\Image\Image($this);
+        // $this->nodes['push'] = new Nodes\Push\Push($this);
+        // $this->nodes['payment'] = new Nodes\Payment\Payment($this);
     }
 
     public function __get(string $name)
