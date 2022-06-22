@@ -8,7 +8,6 @@ use ShopeePhp\Nodes\NodeAbstract;
 
 class Shop extends NodeAbstract
 {
-
     /**
      * Use this call to get information of shop.
      *
@@ -57,5 +56,4 @@ class Shop extends NodeAbstract
     {
         return $this->get('/api/v2/shop/get_warehouse_detail', $commonParameters, $requestParameters);
     }
-    
 }

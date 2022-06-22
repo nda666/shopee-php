@@ -1,6 +1,9 @@
 <?php
 
-trait TokenParameter {
+namespace App\Traits;
+
+trait TokenParameter
+{
     public function getCode(): string
     {
         return $this->parameters['code'];

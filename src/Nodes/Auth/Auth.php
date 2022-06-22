@@ -7,7 +7,6 @@ use ShopeePhp\ResponseData;
 
 class Auth extends NodeAbstract
 {
-
     /**
      * Use this call to Get Access Token
      * https://open.shopee.com/documents/v2/OpenAPI%202.0%20Overview?module=87&type=2
@@ -23,7 +22,7 @@ class Auth extends NodeAbstract
     /**
      * Use this call to Get RefreshAccessToken.
      * https://open.shopee.com/documents/v2/OpenAPI%202.0%20Overview?module=87&type=2
-     * 
+     *
      * @param array|Parameters\RefreshAccessToken $data
      * @return ResponseData
      */

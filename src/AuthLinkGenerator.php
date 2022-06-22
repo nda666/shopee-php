@@ -1,8 +1,8 @@
 <?php
 
-use function hash_hmac;
-
 namespace ShopeePhp;
+
+use function hash_hmac;
 
 class AuthLinkGenerator implements AuthLinkGeneratorInterface
 {
@@ -29,7 +29,7 @@ class AuthLinkGenerator implements AuthLinkGeneratorInterface
             'redirect' => $this->redirect,
             'timestamp' => $timeStamp
         ], '', '&');
-        
+
         return 'https://partner.shopeemobile.com/api/v2/shop/auth_partner?' . $query;
     }
 }

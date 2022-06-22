@@ -6,7 +6,6 @@ use ShopeePhp\RequestParameters;
 
 class UpdateProfile extends RequestParameters
 {
-
     /**
      * The new shop name
      *

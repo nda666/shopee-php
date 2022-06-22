@@ -16,6 +16,6 @@ class SignatureGenerator implements SignatureGeneratorInterface
     public function generateSignature(string $partnerId, string $url, int $timestamp = null): string
     {
         $baseString = $partnerId . $url . ($timestamp ? $timestamp : time());
-        return  hash_hmac('sha256', $baseString,  $this->partnerKey);
+        return  hash_hmac('sha256', $baseString, $this->partnerKey);
     }
 }

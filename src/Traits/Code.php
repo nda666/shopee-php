@@ -1,8 +1,9 @@
 <?php
+
 namespace App\Traits;
 
-trait Code {
-    
+trait Code
+{
     public function getCode(): string
     {
         return $this->parameters['code'];

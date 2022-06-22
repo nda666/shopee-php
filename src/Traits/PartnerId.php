@@ -1,8 +1,9 @@
 <?php
+
 namespace App\Traits;
 
-trait PartnerId {
-    
+trait PartnerId
+{
     public function getPartnerId(): string
     {
         return $this->parameters['partner_id'];

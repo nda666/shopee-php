@@ -9,7 +9,9 @@ use ShopeePhp\RequestParameters;
 
 class RefreshAccessToken extends RequestParameters
 {
-    use PartnerId, ShopId, MerchantId;
+    use PartnerId;
+    use ShopId;
+    use MerchantId;
 
     public function getRefreshToken(): string
     {

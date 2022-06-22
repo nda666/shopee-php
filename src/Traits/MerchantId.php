@@ -1,8 +1,9 @@
 <?php
+
 namespace App\Traits;
 
-trait MerchantId {
-
+trait MerchantId
+{
     public function getMerchantId(): string
     {
         return $this->parameters['merchant_id'];

@@ -18,7 +18,12 @@ use function ucwords;
 
 abstract class CommonParameters implements RequestParametersInterface
 {
-    use PartnerId, Timestamp, AccessToken, ShopId, Sign;
+    use PartnerId;
+    use Timestamp;
+    use AccessToken;
+    use ShopId;
+    use Sign;
+
     /**
      * @var array
      */
@@ -81,5 +86,4 @@ abstract class CommonParameters implements RequestParametersInterface
             return $value;
         }, $this->parameters);
     }
-    
 }

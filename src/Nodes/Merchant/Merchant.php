@@ -8,7 +8,6 @@ use ShopeePhp\Nodes\NodeAbstract;
 
 class Merchant extends NodeAbstract
 {
-
     /**
      * Use this call to get information of merchant.
      *
@@ -32,5 +31,4 @@ class Merchant extends NodeAbstract
     {
         return $this->get('/api/v2/shop/get_shop_list_by_merchant', $commonParameters, $requestParameters);
     }
-    
 }

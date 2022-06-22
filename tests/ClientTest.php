@@ -62,7 +62,7 @@ class ClientTest extends TestCase
 
     public function testShouldBeOkWhenRequestWithCustomSignatureGenerator()
     {
-        $signatureGenerator = new class('PARTNER_KEY') extends SignatureGenerator
+        $signatureGenerator = new class ('PARTNER_KEY') extends SignatureGenerator
         {
             public function generateSignature(string $partnerId, string $url, int $timestamp = null): string
             {

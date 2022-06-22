@@ -223,9 +223,19 @@ class Client
      * @param string $body
      * @return string
      */
-    protected function signature(UriInterface $uri, string $timestamp = "", string $access_token = "", int $shop_id = null): string
-    {
-        return $this->signatureGenerator->generateSignature($this->partnerId, $uri->getPath(), $timestamp, $access_token, $shop_id);
+    protected function signature(
+        UriInterface $uri,
+        string $timestamp = "",
+        string $access_token = "",
+        int $shop_id = null
+    ): string {
+        return $this->signatureGenerator->generateSignature(
+            $this->partnerId,
+            $uri->getPath(),
+            $timestamp,
+            $access_token,
+            $shop_id
+        );
     }
 
     /**
@@ -256,7 +266,9 @@ class Client
         $query['timestamp'] = isset($query['timestamp']) ? $query['timestamp'] : time();
 
         if (!isset($query['sign'])) {
-            $query['sign'] = isset($query['access_token']) ? $this->signature($uri, $timestamp, $query['access_token'], $query['shop_id']) : $this->signature($uri, $timestamp);
+            $query['sign'] = isset($query['access_token']) ?
+                $this->signature($uri, $timestamp, $query['access_token'], $query['shop_id']) :
+                $this->signature($uri, $timestamp);
         }
 
         // dd($query);
@@ -286,7 +298,6 @@ class Client
     public function send(RequestInterface $request): ResponseInterface
     {
         try {
-
             $response = $this->httpClient->send($request);
         } catch (GuzzleClientException $exception) {
             switch ($exception->getCode()) {

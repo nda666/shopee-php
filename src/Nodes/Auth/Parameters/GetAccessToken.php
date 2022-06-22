@@ -10,5 +10,8 @@ use ShopeePhp\RequestParameters;
 
 class GetAccessToken extends RequestParameters
 {
-    use Code, PartnerId, ShopId, MainAccountId;
+    use Code;
+    use PartnerId;
+    use ShopId;
+    use MainAccountId;
 }

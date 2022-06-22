@@ -1,8 +1,9 @@
 <?php
+
 namespace App\Traits;
 
-trait Timestamp {
-
+trait Timestamp
+{
     public function getTimestamp(): string
     {
         return $this->parameters['timestamp'];
