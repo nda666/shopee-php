@@ -119,6 +119,7 @@ class Client
         $this->nodes['auth'] = new Nodes\Auth\Auth($this);
 
         $this->nodes['product'] = new Nodes\Product\Product($this);
+        $this->nodes['shop'] = new Nodes\Shop\Shop($this);
 
         # TODO create all nodes
         // $this->nodes['logistics'] = new Nodes\Logistics\Logistics($this);
