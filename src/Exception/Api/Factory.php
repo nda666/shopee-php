@@ -1,6 +1,6 @@
 <?php
 
-namespace Shopee\Exception\Api;
+namespace ShopeePhp\Exception\Api;
 
 use GuzzleHttp\Exception\RequestException;
 

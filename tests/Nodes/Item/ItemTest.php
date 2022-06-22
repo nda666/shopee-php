@@ -1,6 +1,6 @@
 <?php
 
-namespace Shopee\Tests\Nodes\Item;
+namespace ShopeePhp\Tests\Nodes\Item;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;

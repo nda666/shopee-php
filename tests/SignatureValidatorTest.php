@@ -1,6 +1,6 @@
 <?php
 
-namespace Shopee\Tests;
+namespace ShopeePhp\Tests;
 
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;

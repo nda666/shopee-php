@@ -1,6 +1,6 @@
 <?php
 
-namespace Shopee\Exception;
+namespace ShopeePhp\Exception;
 
 use Exception;
 
