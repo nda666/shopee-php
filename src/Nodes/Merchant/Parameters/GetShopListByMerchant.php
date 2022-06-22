@@ -1,6 +1,6 @@
 <?php
 
-namespace ShopeePhp\Nodes\Auth\Parameters;
+namespace ShopeePhp\Nodes\Merchant\Parameters;
 
 use ShopeePhp\RequestParameters;
 

@@ -62,8 +62,9 @@ class ClientTest extends TestCase
 
     public function testShouldBeOkWhenRequestWithCustomSignatureGenerator()
     {
-        $signatureGenerator = new class ('PARTNER_KEY') extends SignatureGenerator {
-            public function generateSignature(string $url, string $body): string
+        $signatureGenerator = new class('PARTNER_KEY') extends SignatureGenerator
+        {
+            public function generateSignature(string $partnerId, string $url, int $timestamp = null): string
             {
                 return 'CUSTOM_SIGNATURE';
             }
@@ -71,32 +72,37 @@ class ClientTest extends TestCase
 
         $actual = $this->createClient([
             SignatureGeneratorInterface::class => $signatureGenerator,
-        ])->newRequest('/api/v1/orders/detail');
+        ])->request('GET', '/api/v2/orders/detail');
 
-        $this->assertEquals('CUSTOM_SIGNATURE', $actual->getHeaderLine('Authorization'));
+        $parseQuery = [];
+        $parseQuery['sign'] = "";
+        parse_str($actual->getUri('Authorization')->getQuery(), $parseQuery);
+        $this->assertEquals('CUSTOM_SIGNATURE', $parseQuery['sign']);
     }
 
     public function testShouldBeOkWhenNewRequest()
     {
+        $uri = Utils::uriFor(Client::DEFAULT_BASE_URL . '/api/v2/orders/detail?sign=xxxxxxxxxx&partner_id=1&timestamp=123123123');
         $expected = new Request(
             'POST',
-            Client::DEFAULT_BASE_URL . '/api/v1/orders/detail',
+            $uri,
             [
-                'Authorization' => '7f8239f14aa84c8ff59c61c4b728e08a44f5ff756064da74678b2f5162ac9116',
                 'User-Agent' => Client::DEFAULT_USER_AGENT,
                 'Content-Type' => 'application/json',
             ],
-            '{"partner_id":1,"shopid":61299,"timestamp":1470198856,"ordersn":"160726152598865"}'
+            '{"ordersn":160726152598865}'
         );
 
-        $actual = $this->createClient()->newRequest(
-            '/api/v1/orders/detail',
-            [],
+        $actual = $this->createClient()->request(
+            'POST',
+            '/api/v2/orders/detail',
             [
+                'sign' => "xxxxxxxxxx",
                 'partner_id' => 1,
-                'shopid' => 61299,
-                'timestamp' => 1470198856,
-                'ordersn' => '160726152598865',
+                'timestamp' => 123123123,
+            ],
+            [
+                'ordersn' => 160726152598865,
             ]
         );
 
@@ -112,28 +118,13 @@ class ClientTest extends TestCase
         return [
             [
                 'https://galaxy.com/',
-                '',
-                'https://galaxy.com/',
+                'milky-way/?partner_id=xxxxx&timestamp=xxxx&sign=xxxxx',
+                'https://galaxy.com/milky-way/?partner_id=xxxxx&timestamp=xxxx&sign=xxxxx',
             ],
             [
                 'https://galaxy.com/',
-                'milky-way',
-                'https://galaxy.com/milky-way',
-            ],
-            [
-                'https://galaxy.com/',
-                'milky-way/solar-system',
-                'https://galaxy.com/milky-way/solar-system',
-            ],
-            [
-                'https://galaxy.com/milky-way/',
-                'solar-system',
-                'https://galaxy.com/milky-way/solar-system',
-            ],
-            [
-                'https://galaxy.com/',
-                'milky-way/solar-system?planet=earth',
-                'https://galaxy.com/milky-way/solar-system?planet=earth',
+                'milky-way/solar-system?partner_id=1&timestamp=1655892524&sign=ce487eda966edbf656072dfb6b3268edc8842ba3c19f297399902321f346a946',
+                'https://galaxy.com/milky-way/solar-system?partner_id=1&timestamp=1655892524&sign=ce487eda966edbf656072dfb6b3268edc8842ba3c19f297399902321f346a946',
             ],
         ];
     }
@@ -152,7 +143,7 @@ class ClientTest extends TestCase
         ]);
 
         $expected = Utils::uriFor($exceptedUri);
-        $actual = $client->newRequest($actualUri)->getUri();
+        $actual = $client->request("GET", $actualUri)->getUri();
 
         $this->assertEquals($expected, $actual);
     }
@@ -162,7 +153,7 @@ class ClientTest extends TestCase
         $expected = new Response(200, [], '"pong"');
         $client = $this->createClient([], $this->createHttpClient($expected));
 
-        $request = $client->newRequest('ping');
+        $request = $client->request('GET', 'ping');
         $actual = $client->send($request);
 
         $this->assertEquals($expected, $actual);
@@ -207,7 +198,7 @@ class ClientTest extends TestCase
             $client = $this->createClient();
             $client->setHttpClient($this->createHttpClient($response));
 
-            $request = $client->newRequest('ping');
+            $request = $client->request('GET', 'ping');
             $client->send($request);
         } catch (ApiException $actual) {
             $this->assertInstanceOf($expected, $actual);

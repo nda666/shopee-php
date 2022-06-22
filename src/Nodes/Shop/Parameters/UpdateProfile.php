@@ -1,6 +1,6 @@
 <?php
 
-namespace ShopeePhp\Nodes\Product\Parameters;
+namespace ShopeePhp\Nodes\Shop\Parameters;
 
 use ShopeePhp\RequestParameters;
 
@@ -18,7 +18,8 @@ class UpdateProfile extends RequestParameters
         $this->parameters['shop_name'] = $value;
     }
 
-    public function getShopName(){
+    public function getShopName()
+    {
         return $this->parameters['shop_name'];
     }
 
@@ -33,7 +34,8 @@ class UpdateProfile extends RequestParameters
         $this->parameters['shop_logo'] = $value;
     }
 
-    public function getShopLogo(){
+    public function getShopLogo()
+    {
         return $this->parameters['shop_logo'];
     }
 
@@ -42,7 +44,8 @@ class UpdateProfile extends RequestParameters
         $this->parameters['description'] = $value;
     }
 
-    public function getDescription(){
+    public function getDescription()
+    {
         return $this->parameters['description'];
     }
 }

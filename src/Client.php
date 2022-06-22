@@ -242,17 +242,21 @@ class Client
         if (substr($path, 0, 1) !== '/') {
             $path = '/' . $path;
         }
+
         $uri = $uri->withPath($path);
 
+        $queryFromUri = [];
+        parse_str($uri->getQuery(), $queryFromUri);
+
+        $query = array_merge($query, $queryFromUri);
+
+        $query['partner_id'] = isset($query['partner_id']) ? $query['partner_id'] : $this->partnerId;
+
         $timestamp = time();
+        $query['timestamp'] = isset($query['timestamp']) ? $query['timestamp'] : time();
 
-        $query['partner_id'] = $this->partnerId;
-        $query['timestamp'] = $timestamp;
-
-        if (isset($query['access_token'])) {
-            $query['sign'] = $this->signature($uri, $timestamp, $query['access_token'], $query['shop_id']);
-        } else {
-            $query['sign'] = $this->signature($uri, $timestamp);
+        if (!isset($query['sign'])) {
+            $query['sign'] = isset($query['access_token']) ? $this->signature($uri, $timestamp, $query['access_token'], $query['shop_id']) : $this->signature($uri, $timestamp);
         }
 
         // dd($query);
@@ -263,11 +267,6 @@ class Client
             ->withUserInfo($this->baseUrl->getUserInfo())
             ->withHost($this->baseUrl->getHost())
             ->withPort($this->baseUrl->getPort());
-
-        if (strtolower($method) == "post") {
-            $data['partner_id'] = $this->partnerId;
-        }
-
 
         $jsonBody = strtolower($method) == "post" ? json_encode($data) : null;
 
