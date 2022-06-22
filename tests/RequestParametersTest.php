@@ -3,7 +3,7 @@
 namespace ShopeePhp\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Shopee\RequestParametersInterface;
+use ShopeePhp\RequestParametersInterface;
 
 class RequestParametersTest extends TestCase
 {

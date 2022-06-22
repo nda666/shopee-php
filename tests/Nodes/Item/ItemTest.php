@@ -5,7 +5,7 @@ namespace ShopeePhp\Tests\Nodes\Item;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
-use Shopee\Tests\ClientTrait;
+use ShopeePhp\Tests\ClientTrait;
 
 use function array_diff_assoc;
 use function json_decode;

@@ -2,7 +2,7 @@
 
 namespace ShopeePhp\Tests;
 
-use Shopee\RequestParameters;
+use ShopeePhp\RequestParameters;
 
 class RequestParametersClass extends RequestParameters
 {

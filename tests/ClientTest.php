@@ -9,14 +9,14 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Utils;
 use InvalidArgumentException;
 use Psr\Http\Message\UriInterface;
-use Shopee\Client;
+use ShopeePhp\Client;
 use PHPUnit\Framework\TestCase;
-use Shopee\Exception\Api\ApiException;
-use Shopee\Exception\Api\BadRequestException;
-use Shopee\Exception\Api\ClientException;
-use Shopee\Exception\Api\ServerException;
-use Shopee\SignatureGenerator;
-use Shopee\SignatureGeneratorInterface;
+use ShopeePhp\Exception\Api\ApiException;
+use ShopeePhp\Exception\Api\BadRequestException;
+use ShopeePhp\Exception\Api\ClientException;
+use ShopeePhp\Exception\Api\ServerException;
+use ShopeePhp\SignatureGenerator;
+use ShopeePhp\SignatureGeneratorInterface;
 use stdClass;
 
 class ClientTest extends TestCase

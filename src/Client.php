@@ -31,8 +31,9 @@ use function substr;
 
 /**
  * @property Nodes\Auth\Auth $auth
+ * @property Nodes\Shop\Shop $shop
  * @property Nodes\Product\Product $product
- * @property Nodes\Logistics\Logistics $logistics
+ * @property Nodes\Merchant\Merchant $logistics
  * @property Nodes\Order\Order $order
  * @property Nodes\Returns\Returns $returns
  * @property Nodes\Shop\Shop $shop
@@ -120,6 +121,7 @@ class Client
 
         $this->nodes['product'] = new Nodes\Product\Product($this);
         $this->nodes['shop'] = new Nodes\Shop\Shop($this);
+        $this->nodes['merchant'] = new Nodes\Merchant\Merchant($this);
 
         # TODO create all nodes
         // $this->nodes['logistics'] = new Nodes\Logistics\Logistics($this);

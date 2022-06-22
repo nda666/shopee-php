@@ -5,8 +5,8 @@ namespace ShopeePhp\Tests;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
-use Shopee\SignatureGenerator;
-use Shopee\SignatureValidator;
+use ShopeePhp\SignatureGenerator;
+use ShopeePhp\SignatureValidator;
 
 class SignatureValidatorTest extends TestCase
 {

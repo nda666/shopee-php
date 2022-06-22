@@ -13,7 +13,7 @@ class Shop extends NodeAbstract
      * Use this call to get information of shop.
      *
      * @param array|CommonParameters $parameters
-     * @param array|Parameters\GetShopInfo $parameters
+     * @param array $parameters
      * @return ResponseData
      */
     public function getShopInfo($commonParameters = [], $requestParameters = []): ResponseData
@@ -25,7 +25,7 @@ class Shop extends NodeAbstract
      * This API support to get information of shop.
      *
      * @param array|CommonParameters $parameters
-     * @param array|Parameters\GetShopProfile $parameters
+     * @param array $parameters
      * @return ResponseData
      */
     public function getShopProfile($commonParameters = [], $requestParameters = []): ResponseData
@@ -50,7 +50,7 @@ class Shop extends NodeAbstract
      * For given shop id and region, return warehouse info including warehouse id, address id and location id.
      *
      * @param array|CommonParameters $parameters
-     * @param array|Parameters\UpdateProfile $parameters
+     * @param array $parameters
      * @return ResponseData
      */
     public function getWarehouseDetail($commonParameters = [], $requestParameters = []): ResponseData
