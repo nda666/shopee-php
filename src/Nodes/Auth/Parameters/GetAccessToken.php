@@ -2,10 +2,10 @@
 
 namespace ShopeePhp\Nodes\Auth\Parameters;
 
-use App\Traits\Code;
-use App\Traits\MainAccountId;
-use App\Traits\PartnerId;
-use App\Traits\ShopId;
+use ShopeePhp\Traits\Code;
+use ShopeePhp\Traits\MainAccountId;
+use ShopeePhp\Traits\PartnerId;
+use ShopeePhp\Traits\ShopId;
 use ShopeePhp\RequestParameters;
 
 class GetAccessToken extends RequestParameters

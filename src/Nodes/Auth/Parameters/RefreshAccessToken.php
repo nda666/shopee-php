@@ -2,9 +2,9 @@
 
 namespace ShopeePhp\Nodes\Auth\Parameters;
 
-use App\Traits\MerchantId;
-use App\Traits\PartnerId;
-use App\Traits\ShopId;
+use ShopeePhp\Traits\MerchantId;
+use ShopeePhp\Traits\PartnerId;
+use ShopeePhp\Traits\ShopId;
 use ShopeePhp\RequestParameters;
 
 class RefreshAccessToken extends RequestParameters

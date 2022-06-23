@@ -2,11 +2,11 @@
 
 namespace ShopeePhp;
 
-use App\Traits\AccessToken;
-use App\Traits\PartnerId;
-use App\Traits\ShopId;
-use App\Traits\Sign;
-use App\Traits\Timestamp;
+use ShopeePhp\Traits\AccessToken;
+use ShopeePhp\Traits\PartnerId;
+use ShopeePhp\Traits\ShopId;
+use ShopeePhp\Traits\Sign;
+use ShopeePhp\Traits\Timestamp;
 use ReflectionClass;
 
 use function array_map;
