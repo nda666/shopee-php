@@ -9,8 +9,6 @@ use ShopeePhp\RequestParameters;
 use ShopeePhp\RequestParametersInterface;
 use ShopeePhp\ResponseData;
 
-use function PHPUnit\Framework\isInstanceOf;
-
 abstract class NodeAbstract
 {
     /** @var Client */
