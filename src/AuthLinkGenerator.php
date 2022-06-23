@@ -17,7 +17,7 @@ class AuthLinkGenerator implements AuthLinkGeneratorInterface
         $this->timestamp = $timestamp ? $timestamp : time();
     }
 
-    public function generate(): string
+    public function generate(string $redirect): string
     {
         $apiPath = '/api/v2/shop/auth_partner';
         $timeStamp = $this->timestamp;
@@ -26,7 +26,7 @@ class AuthLinkGenerator implements AuthLinkGeneratorInterface
         $query = http_build_query([
             'partner_id' => $this->partnerId,
             'sign' => $sign,
-            'redirect' => $this->redirect,
+            'redirect' => $redirect,
             'timestamp' => $timeStamp
         ], '', '&');
 
