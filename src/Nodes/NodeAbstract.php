@@ -9,6 +9,8 @@ use ShopeePhp\RequestParameters;
 use ShopeePhp\RequestParametersInterface;
 use ShopeePhp\ResponseData;
 
+use function PHPUnit\Framework\isInstanceOf;
+
 abstract class NodeAbstract
 {
     /** @var Client */
@@ -49,6 +51,7 @@ abstract class NodeAbstract
      */
     public function get($uri, $commonParameters, $requestParameters)
     {
+
         if ($requestParameters instanceof RequestParametersInterface) {
             $requestParameters = $requestParameters->toArray();
         }
@@ -56,6 +59,7 @@ abstract class NodeAbstract
         if ($commonParameters instanceof RequestParametersInterface) {
             $commonParameters = $commonParameters->toArray();
         }
+
         $parameters = array_merge($requestParameters, $commonParameters);
         $request = $this->client->request('GET', $uri, $parameters);
         $response = $this->client->send($request);

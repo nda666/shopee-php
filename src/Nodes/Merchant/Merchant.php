@@ -12,7 +12,7 @@ class Merchant extends NodeAbstract
      * Use this call to get information of merchant.
      *
      * @param array|CommonParameters $parameters
-     * @param array$parameters
+     * @param array $parameters
      * @return ResponseData
      */
     public function getShopInfo($commonParameters = [], $requestParameters = []): ResponseData

@@ -16,7 +16,7 @@ use function method_exists;
 use function str_replace;
 use function ucwords;
 
-abstract class CommonParameters implements RequestParametersInterface
+class CommonParameters implements RequestParametersInterface
 {
     use PartnerId;
     use Timestamp;

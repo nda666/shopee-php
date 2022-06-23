@@ -33,7 +33,8 @@ use function substr;
  * @property Nodes\Auth\Auth $auth
  * @property Nodes\Shop\Shop $shop
  * @property Nodes\Product\Product $product
- * @property Nodes\Merchant\Merchant $logistics
+ * @property Nodes\Merchant\Merchant $merchant
+ * @property Nodes\Logistics\Logistics $logistics
  * @property Nodes\Order\Order $order
  * @property Nodes\Returns\Returns $returns
  * @property Nodes\Shop\Shop $shop
@@ -122,6 +123,8 @@ class Client
         $this->nodes['product'] = new Nodes\Product\Product($this);
         $this->nodes['shop'] = new Nodes\Shop\Shop($this);
         $this->nodes['merchant'] = new Nodes\Merchant\Merchant($this);
+        $this->nodes['logistics'] = new Nodes\Logistics\Logistics($this);
+        $this->nodes['order'] = new Nodes\Order\Order($this);
 
         # TODO create all nodes
         // $this->nodes['logistics'] = new Nodes\Logistics\Logistics($this);
@@ -227,7 +230,7 @@ class Client
         UriInterface $uri,
         string $timestamp = "",
         string $access_token = "",
-        int $shop_id = null
+        $shop_id = null
     ): string {
         return $this->signatureGenerator->generateSignature(
             $this->partnerId,

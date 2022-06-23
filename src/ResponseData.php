@@ -11,13 +11,13 @@ class ResponseData
     /** @var ResponseInterface */
     private $response;
 
-    /** @var array */
+    /** @var object */
     private $data;
 
     public function __construct(ResponseInterface $response)
     {
         $json = $response->getBody()->getContents();
-        $data = json_decode($json, true);
+        $data = json_decode($json);
 
         $this->response = $response;
         $this->data = $data;
@@ -28,7 +28,7 @@ class ResponseData
         return $this->response;
     }
 
-    public function getData(): array
+    public function getData(): object
     {
         return $this->data;
     }
