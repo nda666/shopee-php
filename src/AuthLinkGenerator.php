@@ -10,7 +10,7 @@ class AuthLinkGenerator implements AuthLinkGeneratorInterface
     private $partnerId;
     private int $timestamp;
 
-    public function __construct(string $partnerId, string $partnerKey, int $timestamp = null)
+    public function __construct(string $partnerId, string $partnerKey, int $timestamp = 0)
     {
         $this->partnerKey = $partnerKey;
         $this->partnerId = $partnerId;
@@ -21,7 +21,7 @@ class AuthLinkGenerator implements AuthLinkGeneratorInterface
     {
         $apiPath = '/api/v2/shop/auth_partner';
         $timeStamp = $this->timestamp;
-        $baseString = $this->partnerId . $apiPath . $timeStamp;
+        $baseString = $this->partnerId . $apiPath . (string) $timeStamp;
         $sign = hash_hmac('sha256', $baseString, $this->partnerKey);
         $query = http_build_query([
             'partner_id' => $this->partnerId,
