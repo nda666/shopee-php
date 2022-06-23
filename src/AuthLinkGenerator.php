@@ -8,9 +8,9 @@ class AuthLinkGenerator implements AuthLinkGeneratorInterface
 {
     private $partnerKey;
     private $partnerId;
-    private int $timestamp;
+    private $timestamp;
 
-    public function __construct(string $partnerId, string $partnerKey, int $timestamp = 0)
+    public function __construct(string $partnerId, string $partnerKey, $timestamp = null)
     {
         $this->partnerKey = $partnerKey;
         $this->partnerId = $partnerId;
@@ -24,10 +24,10 @@ class AuthLinkGenerator implements AuthLinkGeneratorInterface
         $baseString = $this->partnerId . $apiPath . (string) $timeStamp;
         $sign = hash_hmac('sha256', $baseString, $this->partnerKey);
         $query = http_build_query([
-            'partner_id' => $this->partnerId,
+            'partner_id' => (int) $this->partnerId,
             'sign' => $sign,
             'redirect' => $redirect,
-            'timestamp' => $timeStamp
+            'timestamp' => (int) $timeStamp
         ], '', '&');
 
         return 'https://partner.shopeemobile.com/api/v2/shop/auth_partner?' . $query;
