@@ -64,8 +64,13 @@ class ClientTest extends TestCase
     {
         $signatureGenerator = new class ('PARTNER_KEY') extends SignatureGenerator
         {
-            public function generateSignature(string $partnerId, string $url, int $timestamp = null): string
-            {
+            public function generateSignature(
+                string $partnerId,
+                string $url,
+                $timestamp = null,
+                string $access_token = null,
+                $shop_id = null
+            ): string {
                 return 'CUSTOM_SIGNATURE';
             }
         };
