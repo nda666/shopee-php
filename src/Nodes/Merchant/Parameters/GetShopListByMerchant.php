@@ -7,7 +7,9 @@ use ShopeePhp\RequestParameters;
 class GetShopListByMerchant extends RequestParameters
 {
     /**
-     *  Specifies the page number of data to return in the current call. Starting from 1. if data is more than one page, the page_no can be some entry to start next call.
+     * Specifies the page number of data to return in the current call.
+     * Starting from 1. if data is more than one page, the page_no can be
+     * some entry to start next call.
      *
      * @param integer $value
      * @return void
@@ -25,10 +27,11 @@ class GetShopListByMerchant extends RequestParameters
 
     /**
      * Each result set is returned as a page of entries.
-     * Use the "page_size" filters to control the maximum number of entries to retrieve per
-     * page (i.e., per call), and the "page_no" to start next call. This integer value is used
-     * to specify the maximum number of entries to return in a single "page" of data.
-     * No more than 500.
+     * Use the "page_size" filters to control the maximum
+     * number of entries to retrieve per page (i.e., per call),
+     *  and the "page_no" to start next call. This integer value
+     * is used to specify the maximum number of entries to return
+     * in a single "page" of data. No more than 500.
      *
      * @param integer $value
      * @return void

@@ -19,7 +19,8 @@ class RefreshAccessToken extends RequestParameters
     }
 
     /**
-     * The code in redirect url after the authorization. Valid for one-time use, expires in 10 minutes
+     * The code in redirect url after the authorization. Valid for one-time
+     * use, expires in 10 minutes
      *
      * @param string $name
      * @return $this

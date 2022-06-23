@@ -10,7 +10,8 @@ trait TokenParameter
     }
 
     /**
-     * The code in redirect url after the authorization. Valid for one-time use, expires in 10 minutes
+     * The code in redirect url after the authorization. Valid for one-time
+     *  use, expires in 10 minutes
      *
      * @param string $name
      * @return $this
@@ -46,7 +47,8 @@ trait TokenParameter
     }
 
     /**
-     * Shopee's unique identifier for a shop. You can only select one of main_account_id and shop_id in the request param.
+     * Shopee's unique identifier for a shop. You can only select one of
+     *  main_account_id and shop_id in the request param.
      *
      * @param string $name
      * @return $this
@@ -64,7 +66,8 @@ trait TokenParameter
     }
 
     /**
-     * Shopee's unique identifier for a shop. You can only select one of main_account_id and shop_id in the request param.
+     * Shopee's unique identifier for a shop. You can only select one of
+     *  main_account_id and shop_id in the request param.
      *
      * @param string $name
      * @return $this

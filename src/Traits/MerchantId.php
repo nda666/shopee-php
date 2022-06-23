@@ -10,7 +10,8 @@ trait MerchantId
     }
 
     /**
-     * Merchantee's unique identifier for a merchant. You can only select one of main_account_id and merchant_id in the request param.
+     * Merchantee's unique identifier for a merchant. You can only select one
+     *  of main_account_id and merchant_id in the request param.
      *
      * @param string $name
      * @return $this

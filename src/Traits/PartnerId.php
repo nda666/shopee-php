@@ -10,7 +10,8 @@ trait PartnerId
     }
 
     /**
-     * Partner ID is assigned upon registration is successful. Required for all requests.
+     * Partner ID is assigned upon registration is successful. Required for all
+     *  requests.
      *
      * @param string $name
      * @return $this
