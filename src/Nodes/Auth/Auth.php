@@ -16,7 +16,7 @@ class Auth extends NodeAbstract
      */
     public function getAccessToken($requestParameters = []): ResponseData
     {
-        return $this->post('api/v2/auth/token/get', [], $requestParameters);
+        return $this->post('api/v2/auth/token/get', $requestParameters);
     }
 
     /**
@@ -28,6 +28,6 @@ class Auth extends NodeAbstract
      */
     public function refreshAccessToken($data = []): ResponseData
     {
-        return $this->post('api/v2/auth/access_token/get', [], $data);
+        return $this->post('api/v2/auth/access_token/get', $data);
     }
 }

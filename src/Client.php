@@ -74,7 +74,7 @@ class Client
     protected $secret;
 
     /** @var string */
-    protected $access_token;
+    protected $accessToken;
 
     /** @var string */
     protected $code;
@@ -100,6 +100,8 @@ class Client
             'secret' => getenv(self::ENV_SECRET_NAME),
             'partner_id' => (int)getenv(self::ENV_PARTNER_ID_NAME),
             'code' => "",
+            'access_token' => null,
+            'shop_id' => null,
             SignatureGeneratorInterface::class => null,
         ], $config);
 
@@ -109,6 +111,8 @@ class Client
         $this->secret = $config['secret'];
         $this->partnerId = $config['partner_id'];
         $this->code = $config['code'];
+        $this->accessToken = $config['access_token'];
+        $this->shopId = $config['shop_id'] ? (int) $config['shop_id'] : null;
 
         $signatureGenerator = $config[SignatureGeneratorInterface::class];
         if (is_null($signatureGenerator)) {
@@ -198,10 +202,42 @@ class Client
 
     public function getDefaultParameters(): array
     {
-        return [
+        $param = [];
+
+        if ($this->shopId) {
+            $param['shop_id'] = $this->shopId;
+        }
+
+        if ($this->accessToken) {
+            $param['access_token'] = $this->accessToken;
+        }
+
+        return array_merge([
             'partner_id' => $this->partnerId,
             'timestamp' => time(), // Put the current UNIX timestamp when making a request
-        ];
+        ], $param);
+    }
+
+    /**
+     * @param string $accessToken
+     * @return $this
+     */
+    public function setAcessToken(string $accessToken)
+    {
+        $this->accessToken = $accessToken;
+
+        return $this;
+    }
+
+    /**
+     * @param int $shopId
+     * @return $this
+     */
+    public function setShopId(int $shopId)
+    {
+        $this->shopId = $shopId;
+
+        return $this;
     }
 
     /**
@@ -214,7 +250,7 @@ class Client
      */
     protected function createJsonBody(array $data): string
     {
-        $data = array_merge($this->getDefaultParameters(), $data);
+        // $data = array_merge($this->getDefaultParameters(), $data);
 
         return json_encode($data);
     }
@@ -241,11 +277,16 @@ class Client
         );
     }
 
+
     /**
-     * @param string|UriInterface $uri
-     * @param array $headers
-     * @param array $data
-     * @return RequestInterface
+     * It takes a method, uri, query and data and returns a request object
+     *
+     * @param string method The HTTP method to use for the request.
+     * @param uri The URI to send the request to.
+     * @param array query The query parameters to be added to the request.
+     * @param data The data to be sent to the API.
+     *
+     * @return RequestInterface A Request object
      */
     public function request(string $method, $uri, array $query = [], $data = []): RequestInterface
     {
@@ -262,19 +303,13 @@ class Client
         parse_str($uri->getQuery(), $queryFromUri);
 
         $query = array_merge($query, $queryFromUri);
-
-        $query['partner_id'] = isset($query['partner_id']) ? $query['partner_id'] : $this->partnerId;
-
-        $timestamp = time();
-        $query['timestamp'] = isset($query['timestamp']) ? $query['timestamp'] : time();
+        $query = array_merge($this->getDefaultParameters(), $query);
 
         if (!isset($query['sign'])) {
             $query['sign'] = isset($query['access_token']) ?
-                $this->signature($uri, $timestamp, $query['access_token'], $query['shop_id']) :
-                $this->signature($uri, $timestamp);
+                $this->signature($uri, $query['timestamp'], $query['access_token'], $query['shop_id']) :
+                $this->signature($uri, $query['timestamp']);
         }
-
-        // dd($query);
 
         $uri = $uri
             ->withQuery(http_build_query($query))
@@ -293,16 +328,34 @@ class Client
         return $this->currentRequest;
     }
 
-    public function retry()
-    {
-        return $this->send($this->currentRequest);
-    }
-
+    /**
+     * It sends a request to the server and returns a response
+     *
+     * @param RequestInterface request The request object to send.
+     *
+     * @return ResponseInterface A response object.
+     */
     public function send(RequestInterface $request): ResponseInterface
     {
         try {
             $response = $this->httpClient->send($request);
-        } catch (GuzzleClientException $exception) {
+            return $response;
+        } catch (\Exception $exception) {
+            $this->throwException($exception);
+            return false;
+        }
+    }
+
+    /**
+     * If the exception is a GuzzleClientException, throw a custom exception based on the status
+     * code. If the exception is a GuzzleServerException, throw a custom server exception. Otherwise,
+     * throw a generic exception
+     *
+     * @param exception The exception that was thrown.
+     */
+    public function throwException($exception)
+    {
+        if ($exception instanceof GuzzleClientException) {
             switch ($exception->getCode()) {
                 case 400:
                     $className = BadRequestException::class;
@@ -315,10 +368,21 @@ class Client
             }
 
             throw Factory::create($className, $exception);
-        } catch (GuzzleServerException $exception) {
-            throw Factory::create(ServerException::class, $exception);
         }
 
-        return $response;
+        if ($exception instanceof GuzzleServerException) {
+            throw Factory::create(ServerException::class, $exception);
+        }
+        throw new \Exception($exception);
+    }
+
+   /**
+    * This function is used to retry the current request
+    *
+    * @return The return value is the response from the server.
+    */
+    public function retry()
+    {
+        return $this->send($this->currentRequest);
     }
 }

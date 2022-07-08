@@ -4,7 +4,6 @@ namespace ShopeePhp\Nodes;
 
 use Psr\Http\Message\UriInterface;
 use ShopeePhp\Client;
-use ShopeePhp\CommonParameters;
 use ShopeePhp\RequestParameters;
 use ShopeePhp\RequestParametersInterface;
 use ShopeePhp\ResponseData;
@@ -21,21 +20,16 @@ abstract class NodeAbstract
 
     /**
      * @param string|UriInterface $uri
-     * @param array|CommonParameters $parameters
      * @param array|RequestParameters $parameters
      * @return ResponseData
      */
-    public function post($uri, $requestParameters, $commonParameters)
+    public function post($uri, $requestParameters)
     {
         if ($requestParameters instanceof RequestParametersInterface) {
             $requestParameters = $requestParameters->toArray();
         }
 
-        if ($commonParameters instanceof RequestParametersInterface) {
-            $commonParameters = $commonParameters->toArray();
-        }
-
-        $request = $this->client->request('POST', $uri, $requestParameters, $commonParameters);
+        $request = $this->client->request('POST', $uri, [], $requestParameters);
         $response = $this->client->send($request);
 
         return new ResponseData($response);
@@ -43,23 +37,17 @@ abstract class NodeAbstract
 
     /**
      * @param string|UriInterface $uri
-     * @param array|CommonParameters $commonParameters
      * @param array|RequestParameters $requestParameters
      * @return ResponseData
      */
-    public function get($uri, $commonParameters, $requestParameters)
+    public function get($uri, $requestParameters)
     {
 
         if ($requestParameters instanceof RequestParametersInterface) {
             $requestParameters = $requestParameters->toArray();
         }
 
-        if ($commonParameters instanceof RequestParametersInterface) {
-            $commonParameters = $commonParameters->toArray();
-        }
-
-        $parameters = array_merge($requestParameters, $commonParameters);
-        $request = $this->client->request('GET', $uri, $parameters);
+        $request = $this->client->request('GET', $uri, $requestParameters);
         $response = $this->client->send($request);
 
         return new ResponseData($response);

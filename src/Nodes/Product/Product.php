@@ -2,7 +2,6 @@
 
 namespace ShopeePhp\Nodes\Product;
 
-use ShopeePhp\CommonParameters;
 use ShopeePhp\ResponseData;
 use ShopeePhp\Nodes\NodeAbstract;
 
@@ -11,52 +10,47 @@ class Product extends NodeAbstract
     /**
      * Use this call to get a list of category.
      *
-     * @param array|CommonParameters $parameters
      * @param array|Parameters\GetCategory $parameters
      * @return ResponseData
      */
     public function getCategory(
-        $commonParameters = [],
         $requestParameters = []
     ): ResponseData {
-        return $this->get(
-            '/api/v2/product/get_category',
-            $commonParameters,
-            $requestParameters ? $requestParameters : [
-            'offset' => 1,
-            'page_size' => 100
-            ]
-        );
+        return $this->get('/api/v2/product/get_category', $requestParameters);
     }
 
     /**
      * Use this call to get a list of items.
      *
-     * param array|CommonParameters $commonParameters
      * @param array|Parameters\GetItemsList $requestParameters
      * @return ResponseData
      */
     public function getItemsList(
-        $commonParameters = [],
         $requestParameters = []
     ): ResponseData {
 
-        return $this->get('/api/v2/product/get_item_list', $commonParameters, $requestParameters ? $requestParameters :
-        [
-            'offset' => 1,
-            'page_size' => 100
-        ]);
+        return $this->get('/api/v2/product/get_item_list', $requestParameters);
     }
 
     /**
      * Use this call to get items base info
      *
-     * param array|CommonParameters $commonParameters
      * @param array|Parameters\GetItemsList $requestParameters
      * @return ResponseData
      */
-    public function getItemsBaseInfo($commonParameters = [], $requestParameters = []): ResponseData
+    public function getItemsBaseInfo($requestParameters = []): ResponseData
     {
-        return $this->get('/api/v2/product/get_item_base_info', $commonParameters, $requestParameters);
+        return $this->get('/api/v2/product/get_item_base_info', $requestParameters);
+    }
+
+    /**
+     * Update price.
+     *
+     * @param array|Parameters\UpdatePrice $requestParameters
+     * @return ResponseData The response is a JSON object.
+     */
+    public function updatePrice($requestParameters = []): ResponseData
+    {
+        return $this->post('/api/v2/product/update_price', $requestParameters);
     }
 }
