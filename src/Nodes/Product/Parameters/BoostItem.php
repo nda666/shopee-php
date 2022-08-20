@@ -6,7 +6,7 @@ use ShopeePhp\RequestParameters;
 
 class BoostItem extends RequestParameters
 {
-    public function getItemIdList(): string
+    public function getItemIdList(): array
     {
         return $this->parameters['item_id_list'];
     }
@@ -17,7 +17,7 @@ class BoostItem extends RequestParameters
      * @param array $value
      * @return $this
      */
-    public function setItemIdList(string $value)
+    public function setItemIdList(array $value)
     {
         $this->parameters['item_id_list'] = $value;
         return $this;
