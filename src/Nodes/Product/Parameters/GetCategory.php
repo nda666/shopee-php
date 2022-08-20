@@ -26,7 +26,6 @@ class GetCategory extends RequestParameters
     public function setLanguage(string $name)
     {
         $this->parameters['language'] = $name;
-
         return $this;
     }
 }

@@ -87,7 +87,7 @@ class ClientTest extends TestCase
 
     public function testShouldBeOkWhenNewRequest()
     {
-        $uri = Utils::uriFor(Client::DEFAULT_BASE_URL . '/api/v2/orders/detail?sign=xxxxxxxxxx&partner_id=1&timestamp=123123123');
+        $uri = Utils::uriFor(Client::DEFAULT_BASE_URL . '/api/v2/orders/detail?partner_id=1&timestamp=123123123&sign=xxxxxxxxxx');
         $expected = new Request(
             'POST',
             $uri,

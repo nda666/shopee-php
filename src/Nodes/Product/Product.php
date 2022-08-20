@@ -53,4 +53,26 @@ class Product extends NodeAbstract
     {
         return $this->post('/api/v2/product/update_price', $requestParameters);
     }
+
+    /**
+     * Get boosted item list.
+     *
+     * @param array|\ShopeePhp\RequestParameters $requestParameters
+     * @return ResponseData The response is a JSON object.
+     */
+    public function getBoostedList($requestParameters = []): ResponseData
+    {
+        return $this->get('/api/v2/product/get_boosted_list', $requestParameters);
+    }
+
+    /**
+     * Boost item.
+     *
+     * @param array|Parameters\BoostItem $requestParameters
+     * @return ResponseData The response is a JSON object.
+     */
+    public function boostItem($requestParameters = []): ResponseData
+    {
+        return $this->post('/api/v2/product/boost_item', $requestParameters);
+    }
 }
