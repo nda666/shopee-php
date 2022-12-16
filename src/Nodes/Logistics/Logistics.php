@@ -22,11 +22,23 @@ class Logistics extends NodeAbstract
      * Use this api to fetch the logistics information of an order, these info can be used for airwaybill printing.
      *
      * @param array|Parameters\GetShippingDocumentInfo $parameters
+     * @deprecated use getShippingDocumentDataInfo instead
      * @return ResponseData
      */
     public function getShippingDocumentInfo($requestParameters = []): ResponseData
     {
         return $this->get('/api/v2/logistics/get_shipping_document_info', $requestParameters);
+    }
+
+    /**
+     * Use this api to fetch the logistics information of an order, these info can be used for airwaybill printing. Dedicated for crossborder SLS order airwaybill. May not be applicable for local channel airwaybill. Besides, this api supports returning personal info as images.
+     *
+     * @param array $requestParameters
+     * @return ResponseData
+     */
+    public function getShippingDocumentDataInfo($requestParameters = []): ResponseData
+    {
+        return $this->post('/api/v2/logistics/get_shipping_document_data_info', $requestParameters);
     }
 
     /**
