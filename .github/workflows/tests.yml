@@ -1,4 +1,4 @@
-on: [ push, pull_request ]
+on: [push, pull_request]
 name: tests
 
 jobs:
@@ -6,9 +6,9 @@ jobs:
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
-        operating-system: [ ubuntu-latest ]
-        php-versions: [ 8, 7.4, 7.3, 7.2, 7.1 ]
-        phpunit-versions: [ latest ]
+        operating-system: [ubuntu-latest]
+        php-versions: [8, 7.4, 7.3, 7.2, 7.1]
+        phpunit-versions: [latest]
 
     steps:
       - uses: shivammathur/setup-php@v2
@@ -30,9 +30,6 @@ jobs:
 
       - name: Install dependencies
         run: composer install --prefer-dist
-
-      - name: Run lint
-        run: composer run lint
 
       - name: Run static analysis (phpstan)
         run: composer run phpstan

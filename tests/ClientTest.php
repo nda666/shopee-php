@@ -62,14 +62,13 @@ class ClientTest extends TestCase
 
     public function testShouldBeOkWhenRequestWithCustomSignatureGenerator()
     {
-        $signatureGenerator = new class ('PARTNER_KEY') extends SignatureGenerator
-        {
+        $signatureGenerator = new class ('PARTNER_KEY') extends SignatureGenerator {
             public function generateSignature(
                 string $partnerId,
                 string $url,
                 $timestamp = null,
                 string $access_token = null,
-                $shop_id = null
+                $shop_id = null,
             ): string {
                 return 'CUSTOM_SIGNATURE';
             }
@@ -95,7 +94,7 @@ class ClientTest extends TestCase
                 'User-Agent' => Client::DEFAULT_USER_AGENT,
                 'Content-Type' => 'application/json',
             ],
-            '{"ordersn":160726152598865}'
+            '{"ordersn":160726152598865}',
         );
 
         $actual = $this->createClient()->request(
@@ -108,7 +107,7 @@ class ClientTest extends TestCase
             ],
             [
                 'ordersn' => 160726152598865,
-            ]
+            ],
         );
 
         $this->assertEquals($expected->getMethod(), $actual->getMethod());

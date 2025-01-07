@@ -6,8 +6,6 @@ use ShopeePhp\RequestParameters;
 
 class EndDiscount extends RequestParameters
 {
-
-
     /**
      * Shopee's unique identifier for the package under an order. You shouldn't fill the field with
      *  empty string when there isn't a package number.
@@ -24,5 +22,4 @@ class EndDiscount extends RequestParameters
     {
         return $this->parameters['discount_id'];
     }
-
 }
