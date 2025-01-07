@@ -1,5 +1,5 @@
 {
-  "version": "v0.1",
+  "version": "0.2",
   "name": "nda666/shopee-php",
   "description": "Shopee Partner API PHP SDK",
   "type": "library",
