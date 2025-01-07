@@ -98,7 +98,7 @@ class Client
             'baseUrl' => self::DEFAULT_BASE_URL,
             'userAgent' => self::DEFAULT_USER_AGENT,
             'secret' => getenv(self::ENV_SECRET_NAME),
-            'partner_id' => (int)getenv(self::ENV_PARTNER_ID_NAME),
+            'partner_id' => (int) getenv(self::ENV_PARTNER_ID_NAME),
             'code' => "",
             'access_token' => null,
             'shop_id' => null,
@@ -129,6 +129,7 @@ class Client
         $this->nodes['merchant'] = new Nodes\Merchant\Merchant($this);
         $this->nodes['logistics'] = new Nodes\Logistics\Logistics($this);
         $this->nodes['order'] = new Nodes\Order\Order($this);
+        $this->nodes['discount'] = new Nodes\Discount\Discount($this);
 
         # TODO create all nodes
         // $this->nodes['logistics'] = new Nodes\Logistics\Logistics($this);
@@ -137,7 +138,6 @@ class Client
         // $this->nodes['shop'] = new Nodes\Shop\Shop($this);
         // $this->nodes['shopCategory'] = new Nodes\ShopCategory\ShopCategory($this);
         // $this->nodes['custom'] = new Nodes\Custom\Custom($this);
-        // $this->nodes['discount'] = new Nodes\Discount\Discount($this);
         // $this->nodes['image'] = new Nodes\Image\Image($this);
         // $this->nodes['push'] = new Nodes\Push\Push($this);
         // $this->nodes['payment'] = new Nodes\Payment\Payment($this);
@@ -266,14 +266,14 @@ class Client
         UriInterface $uri,
         string $timestamp = "",
         string $access_token = "",
-        $shop_id = null
+        $shop_id = null,
     ): string {
         return $this->signatureGenerator->generateSignature(
             $this->partnerId,
             $uri->getPath(),
             $timestamp,
             $access_token,
-            $shop_id
+            $shop_id,
         );
     }
 
@@ -376,11 +376,11 @@ class Client
         throw new \Exception($exception);
     }
 
-   /**
-    * This function is used to retry the current request
-    *
-    * @return The return value is the response from the server.
-    */
+    /**
+     * This function is used to retry the current request
+     *
+     * @return The return value is the response from the server.
+     */
     public function retry()
     {
         return $this->send($this->currentRequest);
