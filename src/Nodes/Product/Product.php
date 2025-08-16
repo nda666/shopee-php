@@ -55,6 +55,17 @@ class Product extends NodeAbstract
     }
 
     /**
+     * Update price.
+     *
+     * @param array|Parameters\UpdatePrice $requestParameters
+     * @return ResponseData The response is a JSON object.
+     */
+    public function update_item($requestParameters = []): ResponseData
+    {
+        return $this->post('/api/v2/product/update_item', $requestParameters);
+    }
+
+    /**
      * Get boosted item list.
      *
      * @param array|\ShopeePhp\RequestParameters $requestParameters
