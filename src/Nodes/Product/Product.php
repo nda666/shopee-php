@@ -60,7 +60,7 @@ class Product extends NodeAbstract
      * @param array|Parameters\UpdatePrice $requestParameters
      * @return ResponseData The response is a JSON object.
      */
-    public function update_item($requestParameters = []): ResponseData
+    public function updateItem($requestParameters = []): ResponseData
     {
         return $this->post('/api/v2/product/update_item', $requestParameters);
     }
