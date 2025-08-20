@@ -6,6 +6,7 @@ use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
 use GuzzleHttp\Exception\ServerException as GuzzleServerException;
+use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Psr7\Utils;
@@ -277,6 +278,87 @@ class Client
         );
     }
 
+    private function hasFile($value): bool
+    {
+        if (is_resource($value) || $value instanceof \Psr\Http\Message\StreamInterface) {
+            return true;
+        }
+
+        if (is_array($value)) {
+            foreach ($value as $v) {
+                if ($this->hasFile($v)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private function shouldUseMultipart($value): bool
+    {
+        if (is_resource($value) || $value instanceof StreamInterface) {
+            return true;
+        }
+        if (is_array($value)) {
+            // kalau ada struktur ['contents' => ...] anggap multipart juga
+            if (array_key_exists('contents', $value)) {
+                return true;
+            }
+            foreach ($value as $v) {
+                if ($this->shouldUseMultipart($v))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Build multipart parts secara rekursif.
+     * - $prefix jadi nama field (akan ditambah [] saat ketemu key numerik).
+     * - Support struktur ['contents'=>..., 'filename'=>..., 'headers'=>...].
+     */
+    private function buildMultipart(array &$parts, $data, string $prefix = ''): void
+    {
+        // Single explicit part: ['contents'=>..., 'filename'=>...?]
+        if (is_array($data) && array_key_exists('contents', $data)) {
+            $part = [
+                'name' => $prefix,
+                'contents' => $data['contents'],
+            ];
+            if (isset($data['filename']))
+                $part['filename'] = $data['filename'];
+            if (isset($data['headers']) && is_array($data['headers']))
+                $part['headers'] = $data['headers'];
+            $parts[] = $part;
+            return;
+        }
+
+        // Nested array: telusuri turun
+        if (is_array($data)) {
+            foreach ($data as $key => $value) {
+                if ($prefix === '') {
+                    // level teratas: pakai key apa adanya
+                    $next = (string) $key;
+                } else {
+                    // kalau key numerik → array-style: name[]
+                    $next = is_int($key) ? $prefix : $prefix . '[' . $key . ']';
+                }
+                $this->buildMultipart($parts, $value, $next);
+            }
+            return;
+        }
+
+        // Stream / resource langsung jadi part
+        if (is_resource($data) || $data instanceof StreamInterface) {
+            $parts[] = ['name' => $prefix, 'contents' => $data];
+            return;
+        }
+
+        // Skalar / null → stringify
+        $parts[] = ['name' => $prefix, 'contents' => is_null($data) ? '' : (string) $data];
+    }
+
 
     /**
      * It takes a method, uri, query and data and returns a request object
@@ -327,29 +409,18 @@ class Client
                 // kalau ada file upload (resource/stream), pakai multipart
                 $hasFile = false;
                 foreach ($data as $k => $v) {
-                    if (is_resource($v) || $v instanceof \Psr\Http\Message\StreamInterface) {
-                        $hasFile = true;
-                        break;
-                    }
+                    $hasFile = $this->hasFile($data);
                 }
-
                 $body = null;
 
                 if ($hasFile) {
-                    // multipart/form-data
-                    $multipart = [];
-                    foreach ($data as $name => $content) {
-                        $part = ['name' => $name];
-                        if (is_array($content) && isset($content['contents'])) {
-                            $multipart[] = array_merge($part, $content);
-                        } else {
-                            $multipart[] = $part + ['contents' => $content];
-                        }
-                    }
-                    // biar Guzzle auto set boundary
-                    $boundary = uniqid();
-                    $body = new \GuzzleHttp\Psr7\MultipartStream($multipart, $boundary);
-                    $headers['Content-Type'] = "multipart/form-data; boundary={$boundary}";
+                    $parts = [];
+                    $this->buildMultipart($parts, $data);
+                    // dd($parts);
+                    $multipartStream = new MultipartStream($parts);
+                    $body = $multipartStream;
+                    $headers['Content-Type'] = 'multipart/form-data; boundary=' . $multipartStream->getBoundary();
+
                 } else {
                     // default: JSON
                     $body = json_encode($data);
