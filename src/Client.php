@@ -266,7 +266,7 @@ class Client
         UriInterface $uri,
         string $timestamp = "",
         string $access_token = "",
-        $shop_id = null,
+        $shop_id = null
     ): string {
         return $this->signatureGenerator->generateSignature(
             $this->partnerId,
@@ -318,12 +318,47 @@ class Client
             ->withHost($this->baseUrl->getHost())
             ->withPort($this->baseUrl->getPort());
 
-        $jsonBody = strtolower($method) == "post" ? json_encode($data) : null;
+
 
         $headers['User-Agent'] = $this->userAgent;
-        $headers['Content-Type'] = 'application/json';
+        $body = null;
+        if (strtolower($method) === 'post') {
+            if (!empty($data)) {
+                // kalau ada file upload (resource/stream), pakai multipart
+                $hasFile = false;
+                foreach ($data as $k => $v) {
+                    if (is_resource($v) || $v instanceof \Psr\Http\Message\StreamInterface) {
+                        $hasFile = true;
+                        break;
+                    }
+                }
 
-        $this->currentRequest = new Request($method, $uri, $headers, $jsonBody);
+                $body = null;
+
+                if ($hasFile) {
+                    // multipart/form-data
+                    $multipart = [];
+                    foreach ($data as $name => $content) {
+                        $part = ['name' => $name];
+                        if (is_array($content) && isset($content['contents'])) {
+                            $multipart[] = array_merge($part, $content);
+                        } else {
+                            $multipart[] = $part + ['contents' => $content];
+                        }
+                    }
+                    // biar Guzzle auto set boundary
+                    $boundary = uniqid();
+                    $body = new \GuzzleHttp\Psr7\MultipartStream($multipart, $boundary);
+                    $headers['Content-Type'] = "multipart/form-data; boundary={$boundary}";
+                } else {
+                    // default: JSON
+                    $body = json_encode($data);
+                    $headers['Content-Type'] = 'application/json';
+                }
+            }
+        }
+
+        $this->currentRequest = new Request($method, $uri, $headers, $body);
 
         return $this->currentRequest;
     }
